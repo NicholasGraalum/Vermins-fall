@@ -1,0 +1,7 @@
+{
+  "FolderOrderSettings":[],
+  "ResourceOrderSettings":[
+    {"name":"SewerTiles","order":2,"path":"sprites/SewerTiles/SewerTiles.yy",},
+    {"name":"SewerTileSet","order":1,"path":"tilesets/SewerTileSet/SewerTileSet.yy",},
+  ],
+}
