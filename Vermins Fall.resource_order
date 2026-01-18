@@ -1,7 +1,14 @@
 {
-  "FolderOrderSettings":[],
+  "FolderOrderSettings":[
+    {"name":"Maps","order":5,"path":"folders/Maps.yy",},
+    {"name":"Sewers","order":1,"path":"folders/Maps/Sewers.yy",},
+    {"name":"NPC","order":7,"path":"folders/NPC.yy",},
+    {"name":"Player","order":4,"path":"folders/Player.yy",},
+  ],
   "ResourceOrderSettings":[
-    {"name":"SewerTiles","order":2,"path":"sprites/SewerTiles/SewerTiles.yy",},
-    {"name":"SewerTileSet","order":1,"path":"tilesets/SewerTileSet/SewerTileSet.yy",},
+    {"name":"base","order":2,"path":"sprites/base/base.yy",},
+    {"name":"running","order":1,"path":"sprites/running/running.yy",},
+    {"name":"SewerTiles","order":1,"path":"sprites/SewerTiles/SewerTiles.yy",},
+    {"name":"SewerTileSet","order":2,"path":"tilesets/SewerTileSet/SewerTileSet.yy",},
   ],
 }

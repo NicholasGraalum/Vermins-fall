@@ -5,22 +5,26 @@
   "inheritCode":false,
   "inheritCreationOrder":false,
   "inheritLayers":false,
-  "instanceCreationOrder":[],
+  "instanceCreationOrder":[
+    {"name":"inst_55218D21","path":"rooms/Room1/Room1.yy",},
+  ],
   "isDnd":false,
   "layers":[
-    {"$GMRTileLayer":"","%Name":"Tiles_1","depth":0,"effectEnabled":true,"effectType":"none","gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"Tiles_1","properties":[],"resourceType":"GMRTileLayer","resourceVersion":"2.0","tiles":{"SerialiseHeight":12,"SerialiseWidth":22,"TileCompressedData":[
-          -121,-2147483648,2,8,32,-17,-2147483648,8,28,-2147483648,-2147483648,9,25,-2147483648,-2147483648,8,
-          -14,-2147483648,10,13,-2147483648,-2147483648,9,25,-2147483648,-2147483648,9,14,30,-8,-2147483648,-3,
-          0,11,-2147483648,13,-2147483648,-2147483648,9,25,-2147483648,-2147483648,9,14,30,-4,-2147483648,-8,1,
-          10,2,1,1,3,27,1,1,3,14,30,-4,-2147483648,-16,6,2,62,30,-4,-2147483648,-14,7,-8,-2147483648,
+    {"$GMRTileLayer":"","%Name":"room_tiles","depth":0,"effectEnabled":true,"effectType":"none","gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"room_tiles","properties":[],"resourceType":"GMRTileLayer","resourceVersion":"2.0","tiles":{"SerialiseHeight":12,"SerialiseWidth":22,"TileCompressedData":[
+          -121,-2147483648,-2,0,-17,-2147483648,8,0,-2147483648,-2147483648,8,32,-2147483648,-2147483648,0,-14,
+          -2147483648,7,0,-2147483648,-2147483648,9,25,-2147483648,-2147483648,-3,0,-8,-2147483648,-3,0,8,-2147483648,
+          28,-2147483648,-2147483648,9,25,-2147483648,-2147483648,-3,0,-4,-2147483648,-8,1,10,2,1,1,3,27,1,1,3,
+          14,30,-4,-2147483648,-16,6,2,62,30,-4,-2147483648,-14,7,-8,-2147483648,
         ],"TileDataFormat":1,},"tilesetId":{"name":"SewerTileSet","path":"tilesets/SewerTileSet/SewerTileSet.yy",},"userdefinedDepth":false,"visible":true,"x":0,"y":0,},
-    {"$GMRInstanceLayer":"","%Name":"Instances","depth":100,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
+    {"$GMRInstanceLayer":"","%Name":"player","depth":100,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
+        {"$GMRInstance":"v4","%Name":"inst_55218D21","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_55218D21","objectId":{"name":"Player","path":"objects/Player/Player.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":256.0,"y":480.0,},
+      ],"layers":[],"name":"player","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRBackgroundLayer":"","%Name":"Background","animationFPS":15.0,"animationSpeedType":0,"colour":4278190080,"depth":200,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"hspeed":0.0,"htiled":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"Background","properties":[],"resourceType":"GMRBackgroundLayer","resourceVersion":"2.0","spriteId":null,"stretch":false,"userdefinedAnimFPS":false,"userdefinedDepth":false,"visible":true,"vspeed":0.0,"vtiled":false,"x":0,"y":0,},
   ],
   "name":"Room1",
   "parent":{
-    "name":"Vermins Fall",
-    "path":"Vermins Fall.yyp",
+    "name":"Sewers",
+    "path":"folders/Maps/Sewers.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

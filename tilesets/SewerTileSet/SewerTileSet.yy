@@ -16,8 +16,8 @@
   "out_tilehborder":2,
   "out_tilevborder":2,
   "parent":{
-    "name":"Vermins Fall",
-    "path":"Vermins Fall.yyp",
+    "name":"Sewers",
+    "path":"folders/Maps/Sewers.yy",
   },
   "resourceType":"GMTileSet",
   "resourceVersion":"2.0",
