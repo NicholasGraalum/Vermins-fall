@@ -1,3 +1,4 @@
+// Movement Constants
 jump_speed = 18;
 jump_power = 0;
 move_y = 0;
@@ -12,6 +13,7 @@ player_facing = 1;
 player_gravity = 0.3;
 player_weight = 1.0;
 
+// Word constants
 global.pause = false;
 global.player_hp = 100;
 global.music = true;

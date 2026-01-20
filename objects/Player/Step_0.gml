@@ -10,10 +10,10 @@ jump = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
 roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2); 
 
 player_dir = right - left;
-player_facing = 0;
+var player_facing = 0;
 
 grounded = place_meeting(x, y + 1, tile_id);
-on_wall = (place_meeting(x + 1, y, tile_id) || place_meeting(x - 1, y, tile_id));
+on_wall = (place_meeting(x + 1, y, tile_id) || place_meeting(x - 1, y, tile_id)) && (left || right);
 
 /// @Function handle_animation
 /// @Description: change sprite and animation of player
@@ -37,7 +37,7 @@ function handle_animation()
 function handle_movement()
 {
 	move_x = player_dir * move_speed;	
-	if !on_wall
+	if !on_wall 
 	{
 		move_y += player_gravity;
 	}
@@ -86,7 +86,10 @@ function handle_movement()
 		}
 		move_y = 0;
 	}
-	if !on_wall y += move_y;
+	if (!on_wall)
+	{
+		y += move_y;
+	}
 	
 	handle_animation();
 }

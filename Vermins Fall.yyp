@@ -24,6 +24,7 @@
   },
   "name":"Vermins Fall",
   "resources":[
+    {"id":{"name":"oGame","path":"objects/oGame/oGame.yy",},},
     {"id":{"name":"Player","path":"objects/Player/Player.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"base","path":"sprites/base/base.yy",},},
