@@ -6,23 +6,25 @@ gamepad_set_axis_deadzone(0, 0.2);
 
 left = keyboard_check(ord("A")) || (gamepad_axis_value(0,gp_axislh) < 0);
 right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0);
-jump = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
 roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2); 
 
+jump = keyboard_check(vk_space) || gamepad_button_check_pressed(0,gp_face1);
+jump_long = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
+
 hor_dir = right - left;
-ver_dir = 0;
 
 grounded = place_meeting(x, y + 1, tile_id);
 on_wall = (place_meeting(x + 1, y, tile_id) || place_meeting(x - 1, y, tile_id)) && (left || right);
 
 ani_falling = prev_y <= y && !on_wall && !grounded;
 ani_jumping = prev_y > y && !on_wall && !grounded;
+ani_running = move_x != 0 && grounded;
 
 /// @Function handle_animation
 /// @Description: change sprite and animation of player
 function handle_animation()
 {
-	if (move_x != 0 && grounded)
+	if ani_running
 	{
 		sprite_index = running;
 	}
@@ -33,6 +35,10 @@ function handle_animation()
 	else if ani_falling
 	{
 		sprite_index =  player_falling;
+	}
+	else if on_wall
+	{
+		sprite_index =  player_hanging;
 	}
 	else
 	{
@@ -51,34 +57,37 @@ function handle_movement()
 	prev_y = y;
 	
 	move_x = hor_dir * move_speed;	
+	
+	/// Deciding the jump height and power on how long the key is pressed and if they are hanging
 	if !on_wall 
 	{
 		move_y += player_gravity;
-	}
-
-	/// Deciding the jump height and power on how long the key is pressed
-	if (grounded && !on_wall && jump)
-	{
-		jump_power = 0.1;
-		move_y = -jump_speed * jump_power;
-		falling = false;
-		gamepad_set_vibration(0,0.2,0.2);
-		ver_dir = 1;
-	}
-	if(!jump)
-	{
-		falling = true;	
-		gamepad_set_vibration(0,0,0);
-	}
-	else if ((jump_power < 0.5) && (jump) && (!falling))
-	{
-		jump_power += 0.05;
-		move_y = -jump_speed * jump_power;	
+		if (grounded && !on_wall && jump)
+		{
+			jump_power = 0.1;
+			move_y = -jump_speed * jump_power;
+			falling = false;
+			gamepad_set_vibration(0,0.2,0.2);
+		}
+		if(!jump_long)
+		{
+			falling = true;	
+			gamepad_set_vibration(0,0,0);
+		}
+		else if ((jump_power < 0.5) && (jump_long) && (!falling))
+		{
+			jump_power += 0.05;
+			move_y = -jump_speed * jump_power;	
+		}
+		else
+		{
+			gamepad_set_vibration(0,0,0);
+		
+		}
 	}
 	else
 	{
-		gamepad_set_vibration(0,0,0);
-		
+		move_y = 0;	
 	}
 	
 	/// Collision for the x based on the movement	

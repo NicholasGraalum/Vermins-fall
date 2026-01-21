@@ -2,7 +2,7 @@
 /// @description: set the view port of the camera and move to keep the player in view
 function handle_camera()
 {
-	full_screen = false
+	full_screen = false;
 	view_enabled = true;
 	view_visible[0] = true;
 
