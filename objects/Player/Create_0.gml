@@ -1,10 +1,12 @@
 // Movement Constants
-jump_speed = 18;
+jump_speed = 16;
 jump_power = 0;
 move_y = 0;
+prev_y = 0;
 
 move_speed = 6;
 move_x = 0;
+prev_x = 0;
 roll_dist = 18;
 roll_speed = 0;
 

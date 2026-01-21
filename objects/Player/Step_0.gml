@@ -1,4 +1,4 @@
-/// Constants
+/// @Constants
 lay_id = layer_get_id("room_tiles");
 tile_id =  layer_tilemap_get_id(lay_id);
 
@@ -9,11 +9,14 @@ right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0);
 jump = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
 roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2); 
 
-player_dir = right - left;
-var player_facing = 0;
+hor_dir = right - left;
+ver_dir = 0;
 
 grounded = place_meeting(x, y + 1, tile_id);
 on_wall = (place_meeting(x + 1, y, tile_id) || place_meeting(x - 1, y, tile_id)) && (left || right);
+
+ani_falling = prev_y <= y && !on_wall && !grounded;
+ani_jumping = prev_y > y && !on_wall && !grounded;
 
 /// @Function handle_animation
 /// @Description: change sprite and animation of player
@@ -23,11 +26,19 @@ function handle_animation()
 	{
 		sprite_index = running;
 	}
+	else if ani_jumping
+	{
+		sprite_index = player_jumping;
+	}
+	else if ani_falling
+	{
+		sprite_index =  player_falling;
+	}
 	else
 	{
 		sprite_index = base;
 	}
-	if (move_x != 0) image_xscale = sign(player_dir);
+	if (move_x != 0) image_xscale = sign(hor_dir);
 	
 }
 
@@ -36,19 +47,23 @@ function handle_animation()
 ///  action taken
 function handle_movement()
 {
-	move_x = player_dir * move_speed;	
+	prev_x = x;
+	prev_y = y;
+	
+	move_x = hor_dir * move_speed;	
 	if !on_wall 
 	{
 		move_y += player_gravity;
 	}
 
 	/// Deciding the jump height and power on how long the key is pressed
-	if ((grounded || on_wall) && jump)
+	if (grounded && !on_wall && jump)
 	{
 		jump_power = 0.1;
 		move_y = -jump_speed * jump_power;
 		falling = false;
 		gamepad_set_vibration(0,0.2,0.2);
+		ver_dir = 1;
 	}
 	if(!jump)
 	{
@@ -92,6 +107,7 @@ function handle_movement()
 	}
 	
 	handle_animation();
+
 }
 
 handle_movement()
