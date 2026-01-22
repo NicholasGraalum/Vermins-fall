@@ -1,42 +1,40 @@
-/// @Constants
-lay_id = layer_get_id("room_tiles");
-tile_id =  layer_tilemap_get_id(lay_id);
+/// @struct input, defined in the create even
+input.left = keyboard_check(ord("A")) || (gamepad_axis_value(0,gp_axislh) < 0)
+input.right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0)
+input.up = keyboard_check(ord("W")) || (gamepad_axis_value(0,gp_axislv) < 0)
+input.down = keyboard_check(ord("S")) || (gamepad_axis_value(0, gp_axislv) > 0)
+input.roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2) 
+input.jump = keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0,gp_face1)
+input.jump_hold = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1)
 
-gamepad_set_axis_deadzone(0, 0.2);
+/// @struct dir, defined in the create event
+dir.hor = input.right - input.left;
+dir.ver = input.up - input.down;
 
-left = keyboard_check(ord("A")) || (gamepad_axis_value(0,gp_axislh) < 0);
-right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0);
-roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2); 
-
-jump = keyboard_check(vk_space) || gamepad_button_check_pressed(0,gp_face1);
-jump_long = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
-
-hor_dir = right - left;
-
-grounded = place_meeting(x, y + 1, tile_id);
-on_wall = (place_meeting(x + 1, y, tile_id) || place_meeting(x - 1, y, tile_id)) && (left || right);
-
-ani_falling = prev_y <= y && !on_wall && !grounded;
-ani_jumping = prev_y > y && !on_wall && !grounded;
-ani_running = move_x != 0 && grounded;
+/// @struct state, defined in the create event
+state.grounded = place_meeting(x, y + 1, room_res.tile_id)
+state.on_wall = (place_meeting(x + 1, y, room_res.tile_id) || place_meeting(x - 1, y, room_res.tile_id)) && (input.left || input.right)
+state.falling = prev_y < y && !state.on_wall && !state.grounded;
+state.jumping = prev_y >= y && !state.on_wall && !state.grounded;
+state.running = move_x != 0 && state.grounded;
 
 /// @Function handle_animation
 /// @Description: change sprite and animation of player
 function handle_animation()
 {
-	if ani_running
+	if state.running
 	{
-		sprite_index = running;
+		sprite_index = player_running;
 	}
-	else if ani_jumping
+	else if state.jumping
 	{
 		sprite_index = player_jumping;
 	}
-	else if ani_falling
+	else if state.falling
 	{
 		sprite_index =  player_falling;
 	}
-	else if on_wall
+	else if state.on_wall
 	{
 		sprite_index =  player_hanging;
 	}
@@ -44,56 +42,45 @@ function handle_animation()
 	{
 		sprite_index = base;
 	}
-	if (move_x != 0) image_xscale = sign(hor_dir);
+	if (move_x != 0) image_xscale = sign(dir.hor);
 	
 }
 
 /// @Function handle_movement()
-/// @Description: move the player based on the keys pressed and movement
-///  action taken
+/// @Description: move the player 
 function handle_movement()
 {
 	prev_x = x;
 	prev_y = y;
 	
-	move_x = hor_dir * move_speed;	
+	move_x = dir.hor * move_speed;	
 	
 	/// Deciding the jump height and power on how long the key is pressed and if they are hanging
-	if !on_wall 
+	if (!state.on_wall) 
 	{
 		move_y += player_gravity;
-		if (grounded && !on_wall && jump)
-		{
-			jump_power = 0.1;
-			move_y = -jump_speed * jump_power;
-			falling = false;
-			gamepad_set_vibration(0,0.2,0.2);
-		}
-		if(!jump_long)
-		{
-			falling = true;	
-			gamepad_set_vibration(0,0,0);
-		}
-		else if ((jump_power < 0.5) && (jump_long) && (!falling))
-		{
-			jump_power += 0.05;
-			move_y = -jump_speed * jump_power;	
-		}
-		else
-		{
-			gamepad_set_vibration(0,0,0);
-		
-		}
+	}
+	if (state.grounded && input.jump && !state.falling)
+	{
+		jump_power = 0.1;
+		move_y = -jump_speed * jump_power;
+		gamepad_set_vibration(0,0.2,0.2);
+	}
+	else if ((jump_power < 0.5) && (input.jump_hold) && (!state.falling) && !state.grounded)
+	{
+		jump_power += 0.05;
+		move_y = -jump_speed * jump_power;	
 	}
 	else
 	{
-		move_y = 0;	
+		gamepad_set_vibration(0,0,0);
+		
 	}
 	
-	/// Collision for the x based on the movement	
-	if(place_meeting(x + move_x, y, tile_id))
+	/// moving the player in the x direction
+	if(place_meeting(x + move_x, y, room_res.tile_id))
 	{
-		while(!place_meeting(x + sign(move_x), y, tile_id))
+		while(!place_meeting(x + sign(move_x), y, room_res.tile_id))
 		{
 			x += sign(move_x)
 		}
@@ -101,16 +88,16 @@ function handle_movement()
 	}
 	x += move_x;
 
-	/// Collision for the y based on the movement
-	if(place_meeting(x, y + move_y, tile_id))
+	/// moving the player in the y direction
+	if(place_meeting(x, y + move_y, room_res.tile_id))
 	{
-		while(!place_meeting(x, y + sign(move_y), tile_id))
+		while(!place_meeting(x, y + sign(move_y), room_res.tile_id))
 		{
 			y += sign(move_y)
 		}
 		move_y = 0;
 	}
-	if (!on_wall)
+	if (!state.on_wall)
 	{
 		y += move_y;
 	}

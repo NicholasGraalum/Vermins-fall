@@ -20,6 +20,8 @@ function handle_camera()
 	window_set_rectangle(x_pos, y_pos, view_wport[0], view_hport[0]);
 
 	surface_resize(application_surface, view_wport[0], view_hport[0]);
+	
+	handle_interpolation()
 
 }
 
@@ -37,4 +39,3 @@ function handle_interpolation(){
 }
 
 handle_camera();
-handle_interpolation();

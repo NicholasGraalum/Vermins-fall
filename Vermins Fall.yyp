@@ -31,7 +31,7 @@
     {"id":{"name":"player_falling","path":"sprites/player_falling/player_falling.yy",},},
     {"id":{"name":"player_hanging","path":"sprites/player_hanging/player_hanging.yy",},},
     {"id":{"name":"player_jumping","path":"sprites/player_jumping/player_jumping.yy",},},
-    {"id":{"name":"running","path":"sprites/running/running.yy",},},
+    {"id":{"name":"player_running","path":"sprites/player_running/player_running.yy",},},
     {"id":{"name":"SewerTiles","path":"sprites/SewerTiles/SewerTiles.yy",},},
     {"id":{"name":"SewerTileSet","path":"tilesets/SewerTileSet/SewerTileSet.yy",},},
   ],

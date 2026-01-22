@@ -10,7 +10,7 @@
     {"name":"player_falling","order":4,"path":"sprites/player_falling/player_falling.yy",},
     {"name":"player_hanging","order":5,"path":"sprites/player_hanging/player_hanging.yy",},
     {"name":"player_jumping","order":3,"path":"sprites/player_jumping/player_jumping.yy",},
-    {"name":"running","order":1,"path":"sprites/running/running.yy",},
+    {"name":"player_running","order":1,"path":"sprites/player_running/player_running.yy",},
     {"name":"SewerTiles","order":1,"path":"sprites/SewerTiles/SewerTiles.yy",},
     {"name":"SewerTileSet","order":2,"path":"tilesets/SewerTileSet/SewerTileSet.yy",},
   ],
