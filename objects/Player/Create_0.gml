@@ -12,7 +12,8 @@ states = {
 		{
 			mount : false,
 			jump : false,
-			jump_con : false,
+			grav : 0,
+			grav_count : 3,
 			dir : 0
 		},
 	grapple: 
@@ -48,7 +49,7 @@ input = {
 }
 
 // Movement Constants
-jump_speed = 16;
+jump_speed = 18;
 jump_power = 0;
 move_y = 0;
 prev_y = 0;

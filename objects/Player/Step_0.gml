@@ -17,8 +17,7 @@ states.wall.mount =
 	(((place_meeting(x + 1, y, room_res.tile_id) && input.right)								/// holding the wall on the right
 	|| (place_meeting(x - 1, y, room_res.tile_id) && input.left)))								/// holding the wall on the left
 	&& !states.grounded																			/// are not grounded
-	&& !(states.wall.jump_con || input.jump_hold)												/// weren't jumping off wall
-	&& !(states.wall.jump || input.jump);														/// didn't start jumping off wall
+	&& !(states.jumping && input.jump_hold);
 	
 states.falling = prev_y < y && !states.wall.mount && !states.grounded;
 states.jumping = prev_y >= y && !states.wall.mount && !states.grounded;
@@ -66,36 +65,31 @@ function handle_movement()
 	
 	if (!states.wall.mount && !states.wall.jump && (states.wall.dir == 0))
 	{
-		move_x = dir.hor * run_speed;	
-	}
-	else if (states.wall.jump && !states.grounded)
-	{
-		run_power = 1;
-		move_x = -states.wall.dir * run_speed * run_power;	
-		states.wall.jump_con = true;
-	}
-	else if (states.wall.jump_con && (run_power < 5) && !states.grounded)
-	{
-		run_power += 1;
-		move_x = -states.wall.dir * run_speed;
-	}
-	else
-	{
-		states.wall.jump_con = false;
-		states.wall.jump = false;
-		states.wall.dir = 0;
-	}
-	
-	if (!states.wall.mount && !states.wall.jump_con)
-	{
+		move_x = dir.hor * run_speed;
 		move_y += player_gravity;
+	}
+	else if(states.wall.mount && (states.wall.grav > states.wall.grav_count))
+	{
+			move_y = player_gravity;
+	
+	}
+	else if (states.wall.mount && (states.wall.grav <= states.wall.grav_count))
+	{
+		states.wall.grav += 1;	
 	}
 	
 	if (input.jump && (states.grounded || states.wall.mount))
 	{
 		jump_power = 0.1;
-		states.wall.jump = states.wall.mount;
-		states.wall.jump_con = states.wall.mount;
+		if states.wall.mount
+		{
+			states.wall.jump = true;
+			states.wall.grav = 0
+		}
+		if (states.wall.jump)
+		{
+			move_x = -states.wall.dir * run_speed;
+		}
 		move_y = -jump_speed * jump_power;
 		gamepad_set_vibration(0,0.2,0.2);
 		states.jump_con = true;
@@ -105,11 +99,14 @@ function handle_movement()
 	{
 		jump_power += 0.08;
 		move_y = -jump_speed * jump_power;
+		states.jump_con = true;
 		gamepad_set_vibration(0,0.2,0.2);
 	}
 	else
 	{
+		states.wall.jump = false;
 		states.jump_con = false;
+		states.wall.dir = 0;
 		gamepad_set_vibration(0,0,0);
 		
 	}
@@ -134,7 +131,7 @@ function handle_movement()
 		}
 		move_y = 0;
 	}
-	if (!states.wall.mount)
+	if (!states.wall.mount || (states.wall.grav > states.wall.grav_count))
 	{
 		y += move_y;
 	}
