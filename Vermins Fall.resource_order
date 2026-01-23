@@ -1,5 +1,6 @@
 {
   "FolderOrderSettings":[
+    {"name":"Map_Items","order":2,"path":"folders/Maps/Map_Items.yy",},
     {"name":"Maps","order":5,"path":"folders/Maps.yy",},
     {"name":"NPC","order":7,"path":"folders/NPC.yy",},
     {"name":"Player","order":4,"path":"folders/Player.yy",},
@@ -13,6 +14,7 @@
     {"name":"player_mount","order":6,"path":"sprites/player_mount/player_mount.yy",},
     {"name":"player_running","order":1,"path":"sprites/player_running/player_running.yy",},
     {"name":"SewerTiles","order":1,"path":"sprites/SewerTiles/SewerTiles.yy",},
+    {"name":"sprHook","order":1,"path":"sprites/sprHook/sprHook.yy",},
     {"name":"SewerTileSet","order":2,"path":"tilesets/SewerTileSet/SewerTileSet.yy",},
   ],
 }

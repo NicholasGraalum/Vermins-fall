@@ -3,9 +3,11 @@ input.left = keyboard_check(ord("A")) || (gamepad_axis_value(0,gp_axislh) < 0);
 input.right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0);
 input.up = keyboard_check(ord("W")) || (gamepad_axis_value(0,gp_axislv) < 0);
 input.down = keyboard_check(ord("S")) || (gamepad_axis_value(0, gp_axislv) > 0);
+
 input.roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2);
 input.jump = keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0,gp_face1);
 input.jump_hold = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
+input.special = keyboard_check_pressed(ord("Z"));
 
 /// @struct dir, defined in the create event
 dir.hor = input.right - input.left;

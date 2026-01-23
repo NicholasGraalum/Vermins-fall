@@ -18,7 +18,8 @@ states = {
 		},
 	grapple: 
 		{
-			swing : false	
+			swing : false,
+			dist_max : 16
 		},
 	grounded : false,
 	falling : false,
@@ -41,9 +42,12 @@ input = {
 	right : keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0),
 	up : keyboard_check(ord("W")) || (gamepad_axis_value(0,gp_axislv) < 0),
 	down : keyboard_check(ord("S")) || (gamepad_axis_value(0, gp_axislv) > 0),
+	
 	roll : keyboard_check(vk_control) || gamepad_button_check(0,gp_face2), 
 	jump : keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0,gp_face1),
-	jump_hold : keyboard_check(vk_space) || gamepad_button_check(0,gp_face1),	
+	jump_hold : keyboard_check(vk_space) || gamepad_button_check(0,gp_face1),
+	special : keyboard_check_pressed(ord("Z")),
+	
 	dead_zone : gamepad_set_axis_deadzone(0, 0.2)
 	
 }

@@ -10,6 +10,7 @@
   },
   "defaultScriptType":1,
   "Folders":[
+    {"$GMFolder":"","%Name":"Map_Items","folderPath":"folders/Maps/Map_Items.yy","name":"Map_Items","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Maps","folderPath":"folders/Maps.yy","name":"Maps","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sewers","folderPath":"folders/Maps/Sewers.yy","name":"Sewers","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"NPC","folderPath":"folders/NPC.yy","name":"NPC","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -25,7 +26,8 @@
   "name":"Vermins Fall",
   "resources":[
     {"id":{"name":"oGame","path":"objects/oGame/oGame.yy",},},
-    {"id":{"name":"Player","path":"objects/Player/Player.yy",},},
+    {"id":{"name":"oHook","path":"objects/oHook/oHook.yy",},},
+    {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"base","path":"sprites/base/base.yy",},},
     {"id":{"name":"player_falling","path":"sprites/player_falling/player_falling.yy",},},
@@ -34,6 +36,7 @@
     {"id":{"name":"player_mount","path":"sprites/player_mount/player_mount.yy",},},
     {"id":{"name":"player_running","path":"sprites/player_running/player_running.yy",},},
     {"id":{"name":"SewerTiles","path":"sprites/SewerTiles/SewerTiles.yy",},},
+    {"id":{"name":"sprHook","path":"sprites/sprHook/sprHook.yy",},},
     {"id":{"name":"SewerTileSet","path":"tilesets/SewerTileSet/SewerTileSet.yy",},},
   ],
   "resourceType":"GMProject",

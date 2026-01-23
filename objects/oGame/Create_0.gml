@@ -11,7 +11,7 @@ function handle_camera()
 	view_wport[0] = 960;
 	view_hport[0] = 540;
 
-	view_camera[0] = camera_create_view(0, 0, view_wport[0], view_hport[0], 0, Player, -1, -1, 480, 270);
+	view_camera[0] = camera_create_view(0, 0, view_wport[0], view_hport[0], 0, oPlayer, -1, -1, 480, 270);
 
 	var display_width = display_get_width();
 	var display_height = display_get_height();
