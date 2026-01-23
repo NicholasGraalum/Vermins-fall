@@ -1,40 +1,51 @@
 /// @struct input, defined in the create even
-input.left = keyboard_check(ord("A")) || (gamepad_axis_value(0,gp_axislh) < 0)
-input.right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0)
-input.up = keyboard_check(ord("W")) || (gamepad_axis_value(0,gp_axislv) < 0)
-input.down = keyboard_check(ord("S")) || (gamepad_axis_value(0, gp_axislv) > 0)
-input.roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2) 
-input.jump = keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0,gp_face1)
-input.jump_hold = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1)
+input.left = keyboard_check(ord("A")) || (gamepad_axis_value(0,gp_axislh) < 0);
+input.right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0);
+input.up = keyboard_check(ord("W")) || (gamepad_axis_value(0,gp_axislv) < 0);
+input.down = keyboard_check(ord("S")) || (gamepad_axis_value(0, gp_axislv) > 0);
+input.roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2);
+input.jump = keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0,gp_face1);
+input.jump_hold = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
 
 /// @struct dir, defined in the create event
 dir.hor = input.right - input.left;
 dir.ver = input.up - input.down;
 
 /// @struct state, defined in the create event
-state.grounded = place_meeting(x, y + 1, room_res.tile_id)
-state.on_wall = (place_meeting(x + 1, y, room_res.tile_id) || place_meeting(x - 1, y, room_res.tile_id)) && (input.left || input.right) && !state.grounded
-state.falling = prev_y < y && !state.on_wall && !state.grounded;
-state.jumping = prev_y >= y && !state.on_wall && !state.grounded;
-state.running = move_x != 0 && state.grounded;
+states.grounded = place_meeting(x, y + 1, room_res.tile_id)
+states.wall.mount = 
+	(((place_meeting(x + 1, y, room_res.tile_id) && input.right)								/// holding the wall on the right
+	|| (place_meeting(x - 1, y, room_res.tile_id) && input.left)))								/// holding the wall on the left
+	&& !states.grounded																			/// are not grounded
+	&& !(states.wall.jump_con || input.jump_hold)												/// weren't jumping off wall
+	&& !(states.wall.jump || input.jump);														/// didn't start jumping off wall
+	
+states.falling = prev_y < y && !states.wall.mount && !states.grounded;
+states.jumping = prev_y >= y && !states.wall.mount && !states.grounded;
+states.running = move_x != 0 && states.grounded;
+
+if (states.wall.mount) 
+{
+	states.wall.dir = dir.hor;
+}
 
 /// @Function handle_animation
 /// @Description: change sprite and animation of player
 function handle_animation()
 {
-	if state.running
+	if states.running
 	{
 		sprite_index = player_running;
 	}
-	else if state.jumping
+	else if states.jumping
 	{
 		sprite_index = player_jumping;
 	}
-	else if state.falling
+	else if states.falling
 	{
 		sprite_index =  player_falling;
 	}
-	else if state.on_wall
+	else if states.wall.mount
 	{
 		sprite_index =  player_hanging;
 	}
@@ -53,44 +64,44 @@ function handle_movement()
 	prev_x = x;
 	prev_y = y;
 	
-	if (!state.jump_wall)
+	if (!states.wall.mount && !states.wall.jump && (states.wall.dir == 0))
 	{
-		move_x = dir.hor * move_speed;	
+		move_x = dir.hor * run_speed;	
+	}
+	else if (states.wall.jump && !states.grounded)
+	{
+		run_power = 1;
+		move_x = -states.wall.dir * run_speed * run_power;	
+		states.wall.jump_con = true;
+	}
+	else if (states.wall.jump_con && (run_power < 5) && !states.grounded)
+	{
+		run_power += 1;
+		move_x = -states.wall.dir * run_speed;
 	}
 	else
 	{
-		move_x = dir.hor * -1 * move_speed;	
+		states.wall.jump_con = false;
+		states.wall.jump = false;
+		states.wall.dir = 0;
 	}
 	
-	if (!state.on_wall)
+	if (!states.wall.mount && !states.wall.jump_con)
 	{
 		move_y += player_gravity;
 	}
-	if (input.jump && (state.grounded || state.on_wall))
+	
+	if (input.jump && (states.grounded || states.wall.mount))
 	{
-			if (state.grounded)
-			{
-				jump_power = 0.1;
-			}
-			else if (state.on_wall)
-			{
-				dir.hor *= -1;
-				move_x = move_speed * dir.hor;
-				jump_power = 0.25;
-				state.jump_wall = true;
-			}
-			move_y = -jump_speed * jump_power;
-			gamepad_set_vibration(0,0.2,0.2);
-			state.jump_con = true;
-			
-	}
-	if ((jump_power < 0.25) && input.jump_hold && state.jump_con && state.jump_wall)
-	{
-		jump_power += 0.08;
+		jump_power = 0.1;
+		states.wall.jump = states.wall.mount;
+		states.wall.jump_con = states.wall.mount;
 		move_y = -jump_speed * jump_power;
 		gamepad_set_vibration(0,0.2,0.2);
+		states.jump_con = true;
+			
 	}
-	else if ((jump_power < 0.5) && input.jump_hold && state.jump_con)
+	if ((jump_power < 0.5) && input.jump_hold && states.jump_con)
 	{
 		jump_power += 0.08;
 		move_y = -jump_speed * jump_power;
@@ -98,8 +109,7 @@ function handle_movement()
 	}
 	else
 	{
-		state.jump_con = false;
-		state.jump_wall = false;
+		states.jump_con = false;
 		gamepad_set_vibration(0,0,0);
 		
 	}
@@ -124,7 +134,7 @@ function handle_movement()
 		}
 		move_y = 0;
 	}
-	if (!state.on_wall)
+	if (!states.wall.mount)
 	{
 		y += move_y;
 	}

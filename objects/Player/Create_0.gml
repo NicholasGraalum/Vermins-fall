@@ -7,14 +7,22 @@ room_res = {
 
 ///@struct state
 ///@description: states the player is in
-state = {
+states = {
+	wall :
+		{
+			mount : false,
+			jump : false,
+			jump_con : false,
+			dir : 0
+		},
+	grapple: 
+		{
+			swing : false	
+		},
 	grounded : false,
-	on_wall : false,
-	grapple: false,
 	falling : false,
 	jumping : false,
 	jump_con : false,
-	jump_wall :  false,
 	running : false
 }
 
@@ -45,9 +53,11 @@ jump_power = 0;
 move_y = 0;
 prev_y = 0;
 
-move_speed = 6;
+run_speed = 6;
+run_power = 0;
 move_x = 0;
 prev_x = 0;
+
 roll_dist = 18;
 roll_speed = 0;
 
