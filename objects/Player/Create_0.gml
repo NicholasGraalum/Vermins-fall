@@ -10,8 +10,11 @@ room_res = {
 state = {
 	grounded : false,
 	on_wall : false,
+	grapple: false,
 	falling : false,
 	jumping : false,
+	jump_con : false,
+	jump_wall :  false,
 	running : false
 }
 
@@ -48,8 +51,6 @@ prev_x = 0;
 roll_dist = 18;
 roll_speed = 0;
 
-player_dir = 1;
-player_facing = 1;
 player_gravity = 0.3;
 player_weight = 1.0;
 

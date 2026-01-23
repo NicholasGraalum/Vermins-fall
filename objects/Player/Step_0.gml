@@ -13,7 +13,7 @@ dir.ver = input.up - input.down;
 
 /// @struct state, defined in the create event
 state.grounded = place_meeting(x, y + 1, room_res.tile_id)
-state.on_wall = (place_meeting(x + 1, y, room_res.tile_id) || place_meeting(x - 1, y, room_res.tile_id)) && (input.left || input.right)
+state.on_wall = (place_meeting(x + 1, y, room_res.tile_id) || place_meeting(x - 1, y, room_res.tile_id)) && (input.left || input.right) && !state.grounded
 state.falling = prev_y < y && !state.on_wall && !state.grounded;
 state.jumping = prev_y >= y && !state.on_wall && !state.grounded;
 state.running = move_x != 0 && state.grounded;
@@ -53,26 +53,53 @@ function handle_movement()
 	prev_x = x;
 	prev_y = y;
 	
-	move_x = dir.hor * move_speed;	
-	
-	/// Deciding the jump height and power on how long the key is pressed and if they are hanging
-	if (!state.on_wall) 
+	if (!state.jump_wall)
 	{
-		move_y += player_gravity;
-	}
-	if (state.grounded && input.jump && !state.falling)
-	{
-		jump_power = 0.1;
-		move_y = -jump_speed * jump_power;
-		gamepad_set_vibration(0,0.2,0.2);
-	}
-	else if ((jump_power < 0.5) && (input.jump_hold) && (!state.falling) && !state.grounded)
-	{
-		jump_power += 0.05;
-		move_y = -jump_speed * jump_power;	
+		move_x = dir.hor * move_speed;	
 	}
 	else
 	{
+		move_x = dir.hor * -1 * move_speed;	
+	}
+	
+	if (!state.on_wall)
+	{
+		move_y += player_gravity;
+	}
+	if (input.jump && (state.grounded || state.on_wall))
+	{
+			if (state.grounded)
+			{
+				jump_power = 0.1;
+			}
+			else if (state.on_wall)
+			{
+				dir.hor *= -1;
+				move_x = move_speed * dir.hor;
+				jump_power = 0.25;
+				state.jump_wall = true;
+			}
+			move_y = -jump_speed * jump_power;
+			gamepad_set_vibration(0,0.2,0.2);
+			state.jump_con = true;
+			
+	}
+	if ((jump_power < 0.25) && input.jump_hold && state.jump_con && state.jump_wall)
+	{
+		jump_power += 0.08;
+		move_y = -jump_speed * jump_power;
+		gamepad_set_vibration(0,0.2,0.2);
+	}
+	else if ((jump_power < 0.5) && input.jump_hold && state.jump_con)
+	{
+		jump_power += 0.08;
+		move_y = -jump_speed * jump_power;
+		gamepad_set_vibration(0,0.2,0.2);
+	}
+	else
+	{
+		state.jump_con = false;
+		state.jump_wall = false;
 		gamepad_set_vibration(0,0,0);
 		
 	}
