@@ -4,7 +4,7 @@ input.right = keyboard_check(ord("D")) || (gamepad_axis_value(0, gp_axislh) > 0)
 input.up = keyboard_check(ord("W")) || (gamepad_axis_value(0,gp_axislv) < 0);
 input.down = keyboard_check(ord("S")) || (gamepad_axis_value(0, gp_axislv) > 0);
 
-input.roll = keyboard_check(vk_control) || gamepad_button_check(0,gp_face2);
+input.roll = keyboard_check_pressed(vk_shift) || gamepad_button_check_pressed(0,gp_face2);
 input.jump = keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0,gp_face1);
 input.jump_hold = keyboard_check(vk_space) || gamepad_button_check(0,gp_face1);
 input.special = keyboard_check_pressed(ord("Z"));
@@ -19,11 +19,13 @@ states.wall.mount =
 	(((place_meeting(x + 1, y, room_res.tile_id) && input.right)
 	|| (place_meeting(x - 1, y, room_res.tile_id) && input.left)))
 	&& !states.grounded
-	&& !(states.jumping && input.jump_hold);
+	&& !(states.jumping && input.jump_hold)
+	&& !states.roll.rolling
+	&& !input.roll;
 	
 states.falling = prev_y < y && !states.wall.mount && !states.grounded;
 states.jumping = prev_y >= y && !states.wall.mount && !states.grounded;
-states.running = move_x != 0 && states.grounded;
+states.running = move_x != 0 && states.grounded && !states.roll.rolling;
 
 if (states.wall.mount) 
 {
@@ -50,11 +52,15 @@ function handle_animation()
 	{
 		sprite_index =  player_hanging;
 	}
+	else if states.roll.rolling
+	{
+			sprite_index =  player_rolling;
+	}
 	else
 	{
 		sprite_index = base;
 	}
-	if (move_x != 0) image_xscale = sign(dir.hor);
+	if (move_x != 0) && !states.roll.rolling image_xscale = sign(dir.hor);
 	
 }
 
@@ -64,20 +70,45 @@ function handle_movement()
 {
 	prev_x = x;
 	prev_y = y;
+	if ((dir.hor != 0) && !states.roll.rolling)
+	{
+		states.roll.dir = dir.hor;
+	}
+	if (input.roll && states.grounded && !states.roll.rolling)
+	{
+		states.roll.roll_power = 0.5;
+		move_x = states.roll.dir * states.roll.roll_power * states.roll.roll_speed
+		states.roll.rolling = true;
+		
+	}
+	else if (states.roll.rolling && states.roll.roll_power > 0.1)
+	{
+		states.roll.roll_power -= 0.01;
+		move_x = states.roll.dir * states.roll.roll_power * states.roll.roll_speed;
+		states.roll.rolling = true;
+		
+	}
+	else
+	{
+		states.roll.rolling = false;
+	}	
 	
 	if (!states.wall.mount && !states.wall.jump && (states.wall.dir == 0))
 	{
-		move_x = dir.hor * run_speed;
+		if !states.roll.rolling
+		{
+			move_x = dir.hor * run_speed;
+		}
 		move_y += player_gravity;
 		
 	}
 	else if(states.wall.mount && (states.wall.grav > states.wall.grav_count))
 	{
-		move_y = player_gravity;
+		move_y = player_gravity
 	}
 	else if (states.wall.mount && (states.wall.grav <= states.wall.grav_count))
 	{
-		states.wall.grav += 1;	
+		states.wall.grav += 1;
 	}
 	
 	if (input.jump && (states.grounded || states.wall.mount))
@@ -124,6 +155,7 @@ function handle_movement()
 	}
 	x += move_x;
 
+
 	/// moving the player in the y direction
 	if(place_meeting(x, y + move_y, room_res.tile_id))
 	{
@@ -137,9 +169,7 @@ function handle_movement()
 	{
 		y += move_y;
 	}
-	
 	handle_animation();
-
 }
 
 handle_movement()

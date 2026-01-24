@@ -23,7 +23,10 @@ states = {
 		},
 	roll:
 		{
-			
+			rolling : false,
+			roll_speed : 12,
+			roll_power : 0.0,
+			dir : 1
 		},
 	grounded : false,
 	falling : false,
@@ -66,9 +69,6 @@ run_speed = 6;
 run_power = 0;
 move_x = 0;
 prev_x = 0;
-
-roll_dist = 18;
-roll_speed = 0;
 
 player_gravity = 0.3;
 player_weight = 1.0;
