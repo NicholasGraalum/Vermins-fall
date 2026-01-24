@@ -16,9 +16,9 @@ dir.ver = input.up - input.down;
 /// @struct state, defined in the create event
 states.grounded = place_meeting(x, y + 1, room_res.tile_id)
 states.wall.mount = 
-	(((place_meeting(x + 1, y, room_res.tile_id) && input.right)								/// holding the wall on the right
-	|| (place_meeting(x - 1, y, room_res.tile_id) && input.left)))								/// holding the wall on the left
-	&& !states.grounded																			/// are not grounded
+	(((place_meeting(x + 1, y, room_res.tile_id) && input.right)
+	|| (place_meeting(x - 1, y, room_res.tile_id) && input.left)))
+	&& !states.grounded
 	&& !(states.jumping && input.jump_hold);
 	
 states.falling = prev_y < y && !states.wall.mount && !states.grounded;
@@ -69,11 +69,11 @@ function handle_movement()
 	{
 		move_x = dir.hor * run_speed;
 		move_y += player_gravity;
+		
 	}
 	else if(states.wall.mount && (states.wall.grav > states.wall.grav_count))
 	{
-			move_y = player_gravity;
-	
+		move_y = player_gravity;
 	}
 	else if (states.wall.mount && (states.wall.grav <= states.wall.grav_count))
 	{

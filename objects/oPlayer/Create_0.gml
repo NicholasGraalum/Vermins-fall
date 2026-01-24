@@ -21,6 +21,10 @@ states = {
 			swing : false,
 			dist_max : 16
 		},
+	roll:
+		{
+			
+		},
 	grounded : false,
 	falling : false,
 	jumping : false,

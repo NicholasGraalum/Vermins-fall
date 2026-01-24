@@ -1,7 +1,7 @@
 {
   "FolderOrderSettings":[
-    {"name":"Map_Items","order":2,"path":"folders/Maps/Map_Items.yy",},
     {"name":"Maps","order":5,"path":"folders/Maps.yy",},
+    {"name":"Map_Items","order":2,"path":"folders/Maps/Map_Items.yy",},
     {"name":"NPC","order":7,"path":"folders/NPC.yy",},
     {"name":"Player","order":4,"path":"folders/Player.yy",},
   ],
