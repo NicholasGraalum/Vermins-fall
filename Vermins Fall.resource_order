@@ -7,6 +7,7 @@
   ],
   "ResourceOrderSettings":[
     {"name":"oGame","order":1,"path":"objects/oGame/oGame.yy",},
+    {"name":"RoomUI","order":8,"path":"roomui/RoomUI/RoomUI.yy",},
     {"name":"base","order":2,"path":"sprites/base/base.yy",},
     {"name":"player_falling","order":4,"path":"sprites/player_falling/player_falling.yy",},
     {"name":"player_hanging","order":5,"path":"sprites/player_hanging/player_hanging.yy",},

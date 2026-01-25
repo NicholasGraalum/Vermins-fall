@@ -29,6 +29,7 @@
     {"id":{"name":"oHook","path":"objects/oHook/oHook.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"RoomUI","path":"roomui/RoomUI/RoomUI.yy",},},
     {"id":{"name":"base","path":"sprites/base/base.yy",},},
     {"id":{"name":"player_falling","path":"sprites/player_falling/player_falling.yy",},},
     {"id":{"name":"player_hanging","path":"sprites/player_hanging/player_hanging.yy",},},

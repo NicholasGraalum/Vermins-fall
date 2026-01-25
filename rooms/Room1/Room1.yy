@@ -23,10 +23,10 @@
     {"$GMRTileLayer":"","%Name":"room_tiles","depth":200,"effectEnabled":true,"effectType":"none","gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"room_tiles","properties":[],"resourceType":"GMRTileLayer","resourceVersion":"2.0","tiles":{"SerialiseHeight":12,"SerialiseWidth":219,"TileCompressedData":[
           -15,7,-2,-2147483648,-10,7,-3,0,-3,7,-186,-2147483648,-27,22,-3,0,-3,22,1,38,-185,-2147483648,-27,17,
           -3,0,-2,17,2,11,14,-213,-2147483648,-2,0,-2,-2147483648,2,9,14,-217,-2147483648,2,9,14,-196,-2147483648,
-          -2,0,-14,-2147483648,1,4,-4,5,2,10,14,-193,-2147483648,8,0,-2147483648,-2147483648,8,32,-2147483648,
-          -2147483648,0,-16,-2147483648,2,9,14,-193,-2147483648,7,0,-2147483648,-2147483648,9,25,-2147483648,-2147483648,
-          -3,0,-14,-2147483648,2,9,14,-189,-2147483648,-3,0,8,-2147483648,28,-2147483648,-2147483648,9,25,-2147483648,
-          -2147483648,-3,0,-14,-2147483648,2,9,14,-185,-2147483648,-8,1,5,2,1,1,3,27,-19,1,2,3,14,-185,-2147483648,
+          -2,0,-14,-2147483648,1,4,-4,5,2,10,14,-193,-2147483648,8,0,-2147483648,-2147483648,8,52,-2147483648,
+          -2147483648,0,-16,-2147483648,2,9,14,-193,-2147483648,7,0,-2147483648,-2147483648,9,52,-2147483648,-2147483648,
+          -3,0,-14,-2147483648,2,9,14,-189,-2147483648,-3,0,8,-2147483648,28,-2147483648,-2147483648,9,52,-2147483648,
+          -2147483648,-3,0,-14,-2147483648,2,9,14,-185,-2147483648,-8,1,5,2,1,1,3,27,-9,2,-10,1,2,3,14,-185,-2147483648,
           -33,6,1,62,-185,-2147483648,-33,7,-186,-2147483648,
         ],"TileDataFormat":1,},"tilesetId":{"name":"SewerTileSet","path":"tilesets/SewerTileSet/SewerTileSet.yy",},"userdefinedDepth":false,"visible":true,"x":0,"y":0,},
     {"$GMRInstanceLayer":"","%Name":"player","depth":300,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
@@ -68,8 +68,8 @@
   ],
   "viewSettings":{
     "clearDisplayBuffer":true,
-    "clearViewBackground":true,
-    "enableViews":true,
+    "clearViewBackground":false,
+    "enableViews":false,
     "inheritViewSettings":false,
   },
   "volume":1.0,
