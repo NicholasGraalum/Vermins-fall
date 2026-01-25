@@ -22,6 +22,10 @@ states.wall.mount =
 	&& !(states.jumping && input.jump_hold)
 	&& !states.roll.rolling
 	&& !input.roll;
+
+states.grapple.able = place_meeting(x, y+ states.grapple.dist_y, room_res.hooks) 
+	|| place_meeting(x + states.grapple.dist_x, y, room_res.hooks)
+	|| place_meeting(x - states.grapple.dist_x, y, room_res.hooks);
 	
 states.falling = prev_y < y && !states.wall.mount && !states.grounded;
 states.jumping = prev_y >= y && !states.wall.mount && !states.grounded;
@@ -70,29 +74,14 @@ function handle_movement()
 {
 	prev_x = x;
 	prev_y = y;
+	
 	if ((dir.hor != 0) && !states.roll.rolling)
 	{
-		states.roll.dir = dir.hor;
+		states.face.hor = dir.hor;
 	}
-	if (input.roll && states.grounded && !states.roll.rolling)
-	{
-		states.roll.roll_power = 0.5;
-		move_x = states.roll.dir * states.roll.roll_power * states.roll.roll_speed
-		states.roll.rolling = true;
-		
-	}
-	else if (states.roll.rolling && states.roll.roll_power > 0.1)
-	{
-		states.roll.roll_power -= 0.01;
-		move_x = states.roll.dir * states.roll.roll_power * states.roll.roll_speed;
-		states.roll.rolling = true;
-		
-	}
-	else
-	{
-		states.roll.rolling = false;
-	}	
 	
+	handle_roll();
+	handle_grapple();
 	if (!states.wall.mount && !states.wall.jump && (states.wall.dir == 0))
 	{
 		if !states.roll.rolling
@@ -111,7 +100,7 @@ function handle_movement()
 		states.wall.grav += 1;
 	}
 	
-	if (input.jump && (states.grounded || states.wall.mount))
+	if (input.jump && !states.roll.rolling && (states.grounded || states.wall.mount))
 	{
 		jump_power = 0.1;
 		if states.wall.mount
@@ -170,6 +159,64 @@ function handle_movement()
 		y += move_y;
 	}
 	handle_animation();
+}
+
+/// @Function handle_grapple()
+/// @Description: determine and execture grappling hooks or enemies
+function handle_grapple()
+{
+	if input.special
+	{
+		if (input.up)
+		{
+			for (i = 0; i < states.grapple.dist_y; i += 8)
+			{
+				for (j=0; j < states.grapple.dist_x ; j+= (8 * states.face.hor))
+				{
+					if (place_meeting(x + j, y - i, room_res.hooks))
+					{
+						show_debug_message($"hook found x{x+j} y{y-i} ");
+						break;
+					}
+					else if (place_meeting(x + j, y - i, room_res.tile_id))
+					{
+						show_debug_message($"tile hit x{x+j} y{y-i} ");
+						break;	
+					}
+				}
+				if (place_meeting(x, y-i, room_res.hooks))
+				{
+					show_debug_message($"hook found x{x} y{y-i} ");
+					break;
+				}
+			}
+		}
+	}
+}
+
+/// @Function handle_roll()
+/// @Description: do a roll event if the key is pressed, giving i-frames to the player
+function handle_roll()
+{
+	
+	if (input.roll && states.grounded && !states.roll.rolling)
+	{
+		states.roll.roll_power = 0.5;
+		move_x = states.face.hor * states.roll.roll_power * states.roll.roll_speed
+		states.roll.rolling = true;
+		
+	}
+	else if (states.roll.rolling && states.roll.roll_power > 0.1)
+	{
+		states.roll.roll_power -= 0.01;
+		move_x = states.face.hor * states.roll.roll_power * states.roll.roll_speed;
+		states.roll.rolling = true;
+		
+	}
+	else
+	{
+		states.roll.rolling = false;
+	}		
 }
 
 handle_movement()

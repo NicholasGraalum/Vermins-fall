@@ -1,13 +1,19 @@
 ///@struct room_res
 ///@description: resources provided by the room
 room_res = {
-	tile_id :  layer_tilemap_get_id(layer_get_id("room_tiles"))
+	tile_id :  layer_tilemap_get_id(layer_get_id("room_tiles")),
+	hooks : layer_get_all_elements(layer_get_id("hook"))
 	
 }
 
 ///@struct state
 ///@description: states the player is in
 states = {
+	face :
+		{
+			hor : 1,
+			ver : 1
+		},
 	wall :
 		{
 			mount : false,
@@ -19,14 +25,17 @@ states = {
 	grapple: 
 		{
 			swing : false,
-			dist_max : 16
+			grappling : false,
+			enemy : false,
+			able : false,
+			dist_x : 256,
+			dist_y : 256
 		},
 	roll:
 		{
 			rolling : false,
 			roll_speed : 12,
-			roll_power : 0.0,
-			dir : 1
+			roll_power : 0.0
 		},
 	grounded : false,
 	falling : false,
