@@ -164,34 +164,16 @@ function handle_movement()
 /// @Function handle_grapple()
 /// @Description: determine and execture grappling hooks or enemies
 function handle_grapple()
-{
-	if input.special
+{	
+	if input.special && oGrapple.hook_found
 	{
-		if (input.up)
-		{
-			for (i = 0; i < states.grapple.dist_y; i += 8)
-			{
-				for (j=0; j < states.grapple.dist_x ; j+= (8 * states.face.hor))
-				{
-					if (place_meeting(x + j, y - i, room_res.hooks))
-					{
-						show_debug_message($"hook found x{x+j} y{y-i} ");
-						break;
-					}
-					else if (place_meeting(x + j, y - i, room_res.tile_id))
-					{
-						show_debug_message($"tile hit x{x+j} y{y-i} ");
-						break;	
-					}
-				}
-				if (place_meeting(x, y-i, room_res.hooks))
-				{
-					show_debug_message($"hook found x{x} y{y-i} ");
-					break;
-				}
-			}
-		}
+		show_debug_message($"Hook found:\n\t grapple_x{oGrapple.x} grapple_y{oGrapple.y}\n\t player_x{x} player_y{y}")	
 	}
+	else if input.special
+	{
+		show_debug_message($"Hook layer id {room_res.hooks} {layer_exists("hook")}")	
+	}
+	
 }
 
 /// @Function handle_roll()
