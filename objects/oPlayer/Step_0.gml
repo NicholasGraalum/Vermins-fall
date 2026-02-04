@@ -165,6 +165,7 @@ function handle_movement()
 /// @Description: determine and execture grappling hooks or enemies
 function handle_grapple()
 {	
+	
 	if input.special && oGrapple.hook_found
 	{
 		show_debug_message($"Hook found:\n\t grapple_x{oGrapple.x} grapple_y{oGrapple.y}\n\t player_x{x} player_y{y}")	
