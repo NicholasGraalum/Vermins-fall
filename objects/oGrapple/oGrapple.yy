@@ -9,8 +9,8 @@
   "name":"oGrapple",
   "overriddenProperties":[],
   "parent":{
-    "name":"Player",
-    "path":"folders/Player.yy",
+    "name":"Objects",
+    "path":"folders/Player/Objects.yy",
   },
   "parentObjectId":{
     "name":"oPlayer",

@@ -58,13 +58,14 @@ function handle_animation()
 	}
 	else if states.roll.rolling
 	{
-			sprite_index =  player_rolling;
+		sprite_index =  player_rolling;
 	}
 	else
 	{
 		sprite_index = base;
 	}
 	if (move_x != 0) && !states.roll.rolling image_xscale = sign(dir.hor);
+	
 	
 }
 
@@ -202,4 +203,4 @@ function handle_roll()
 	}		
 }
 
-handle_movement()
+handle_movement();
